@@ -1,0 +1,61 @@
+Meta-вселенная?
+
+Вы являетесь разработчиком в компании Meta и работаете над новым приложением для управления оповещениями. Ваша задача — создать систему, которая позволяет пользователям выбирать различные типы оповещений на основе их предпочтений. Для реализации этой системы вы будете использовать стандартные функциональные интерфейсы Java, такие как Consumer.
+
+Цель:
+Создайте класс NotificationManager, который будет содержать Map для связывания идентификаторов оповещений с их обработчиками.
+
+В данном случае, обработчик оповещения — это функциональный интерфейс, который получает объект Notification и выполняет какое-либо действие, связанное с этим оповещением (например, отправляет сообщение, выводит текст на экран и т.д.).
+
+Требования:
+1️⃣ Создайте класс Notification с полями:
+
+NotificationType type — тип оповещения (перечисление: EMAIL, SMS, PUSH).
+
+String message — сообщение оповещения.
+
+2️⃣ Создайте класс NotificationManager, который будет содержать Map<NotificationType, Consumer<Notification>>, где ключ — тип оповещения, а значение — обработчик. И методы:
+
+registerHandler(NotificationType type, Consumer<Notification> handler) — регистрирует обработчик для определенного типа оповещения.
+
+sendNotification(Notification notification) — вызывает обработчик для переданного типа оповещения.
+
+3️⃣ Зарегистрируйте несколько обработчиков оповещений с помощью лямбда-выражений и функционального интерфейса Consumer<Notification>.
+
+4️⃣* Продумайте, как можно расширить систему, используя дополнительные функциональные интерфейсы. В Meta от вас ждут инициативности и находчивости в разработке собственных креативных решений. Этот пункт мы оставили специально свободным для вас, чтобы вы могли воплощать свои идеи! Вот парочка:
+
+Добавьте фильтры: Используйте функциональный интерфейс Predicate<Notification> для проверки допустимости содержания оповещений. Например, блокируйте сообщения с нецензурной лексикой.
+
+Добавьте корректоры сообщений: Используйте Function<Notification, Notification>, чтобы корректировать содержание оповещений перед отправкой. Например, добавить подпись компании к каждому сообщению.
+
+Пример использования:
+NotificationManager notificationManager = new NotificationManager();
+
+// Регистрация обработчиков оповещений
+notificationManager.registerHandler(NotificationType.EMAIL,
+    notification -> System.out.println("Email: " + notification.getMessage())
+);
+
+notificationManager.registerHandler(NotificationType.SMS,
+    notification -> System.out.println("SMS: " + notification.getMessage())
+);
+
+notificationManager.registerHandler(NotificationType.PUSH,
+    notification -> System.out.println("Push Notification: " + notification.getMessage())
+);
+
+// Отправка оповещений
+Notification emailNotification = new Notification(NotificationType.EMAIL, "Ваш аккаунт активирован");
+Notification smsNotification = new Notification(NotificationType.SMS, "Ваш пароль изменен");
+Notification pushNotification = new Notification(NotificationType.PUSH, "У вас новое сообщение!");
+
+notificationManager.sendNotification(emailNotification);
+notificationManager.sendNotification(smsNotification);
+notificationManager.sendNotification(pushNotification);
+
+Почему эта задача полезна?
+Посмотрите, как удобно с помощью функционального подхода и лямбд создавать расширяемые решения в коллекциях. Больше вам не нужен, например, switch-оператор, от которого меня просто тошнит! Все действия можно складывать в мапу. Лямбды — это реально будто бы действия!
+
+Но ещё, мы в самом деле теперь можем удобно расширять настоящую систему нотификаций через лямбды. Разработчику в Meta всего лишь нужно добавить новую пару в Map с правильной лямбдой, если у него в приложении добавился новый тип нотификаций, а это происходит очень часто.
+
+В итоге условный Facebook развивается крайне быстро из-за таких деталей. Не нужно теперь переписывать всю логику, если вы теперь отправляете сообщения ещё и голубями! Вы просто дописываете нужно голубиную лямбду и всё, дело в шляпе!
